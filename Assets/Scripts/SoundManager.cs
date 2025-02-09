@@ -4,30 +4,28 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; set; }
 
-    private AudioSource uiSFX;
-    private AudioSource musicSource;
+    public AudioClip[] sfxClips;
+    public AudioClip[] musicClips;
 
-    public AudioClip ButtonPressedSFX;
-    public AudioClip[] MusicClips;
+    public AudioSource _uiSFX;
+    public AudioSource _musicSource;
 
     private void Awake()
     {
-        // Реализуем паттерн Singleton, чтобы управлять SoundManager из других скриптов
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);  // Этот объект будет существовать между сценами
+            Destroy(gameObject);
         }
         else
         {
-            Destroy(gameObject);  // Удаляем дубликат, если он уже существует
+            Instance = this;
         }
 
-        uiSFX = gameObject.AddComponent<AudioSource>();
-        uiSFX.playOnAwake = false;
+        _uiSFX = gameObject.AddComponent<AudioSource>();
+        _uiSFX.playOnAwake = false;
 
-        musicSource = gameObject.AddComponent<AudioSource>();
-        musicSource.playOnAwake = true;
+        _musicSource = gameObject.AddComponent<AudioSource>();
+        _musicSource.playOnAwake = true;
     }
     void Start()
     {
@@ -42,26 +40,24 @@ public class SoundManager : MonoBehaviour
 
 
     /// <summary>
-    /// This method plays music from a MusicClips list in SoundManager
+    /// This method plays music from a musicClips list in SoundManager
     /// </summary>
     /// <param name="clipIndex">Track number</param>
     public void PlayMusic(int clipIndex)
     {
-        if (clipIndex >= 0 && clipIndex < MusicClips.Length)
+        if (clipIndex >= 0 && clipIndex < musicClips.Length)
         {
-            musicSource.clip = MusicClips[clipIndex];
-            musicSource.Play();
+            _musicSource.clip = musicClips[clipIndex];
+            _musicSource.Play();
         }
     }
 
 
 
-    public void ToggleSound(bool isOn)
+    public void ToggleSounds(bool isOn)
     {
-        musicSource.mute = !isOn;
+        _musicSource.mute = !isOn;
     }   
-
-
 
     /// <summary>
     /// Plays the audioClip once through the audioSource.

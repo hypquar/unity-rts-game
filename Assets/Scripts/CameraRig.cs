@@ -46,6 +46,7 @@ public class CameraRig : MonoBehaviour
     void HandleCameraMovement()
     {
         // movement with keys
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
             newPosition += (transform.forward * movementSpeed);
@@ -64,14 +65,17 @@ public class CameraRig : MonoBehaviour
         }
         
         // movement with mouse
+
         if (Input.mousePosition.x > Screen.width - edgeSize)
         {
             newPosition += (transform.right * movementSpeed);
+            Debug.Log("Mouse on right edge");
         }
         
         else if (Input.mousePosition.x < edgeSize)
         {
             newPosition += (transform.right * -movementSpeed);
+            Debug.Log("Mouse on left edge");
         }
         
         else if (Input.mousePosition.y > Screen.height - edgeSize)
