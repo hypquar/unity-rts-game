@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26070c5fb3b71874fb6c139fe16602e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingData: {fileID: 11400000, guid: 6fe0a115244ff614c8cc1c8fc59c40e7, type: 2}
 --- !u!208 &2170722144916545431
 NavMeshObstacle:
   m_ObjectHideFlags: 0

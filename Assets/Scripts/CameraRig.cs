@@ -3,17 +3,23 @@ using UnityEngine;
 public class CameraRig : MonoBehaviour
 {
     public static CameraRig instance;
-    Transform cameraTransform;
+
     Vector3 newPosition;
+
     [SerializeField]
     float normalSpeed = 0.05f;
+
     [SerializeField]
     float movementSensitivity = 2f;
+
     float movementSpeed;
+
     [SerializeField]
     float edgeSize = 50f;
+
     [SerializeField]
     float maxFOV = 100.0f;
+
     [SerializeField]
     float scrollSensivity = 5.0f;
     
@@ -87,6 +93,7 @@ public class CameraRig : MonoBehaviour
         {
             newPosition += (transform.forward * -movementSpeed);
         }
+
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementSensitivity);
     }
 

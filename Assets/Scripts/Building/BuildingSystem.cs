@@ -1,9 +1,6 @@
-using System;
-using System.Linq.Expressions;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
+
 
 public class BuildingSystem : MonoBehaviour
 {
@@ -16,8 +13,8 @@ public class BuildingSystem : MonoBehaviour
     Camera _cam;
     bool _isInBuildingMode;
     int _buildingIndex;
-    Building previewInstance;
-    Building buildingPrefab;
+    Building _previewInstance;
+    Building _buildingPrefab;
 
     void Awake()
     {
@@ -51,7 +48,8 @@ public class BuildingSystem : MonoBehaviour
                 RaycastHit hit;
                 Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
                 Physics.Raycast(ray, out hit, Mathf.Infinity, ground);
-                Vector3 previewPosition = hit.point + (Vector3.up * 0.5f); //(Instance.buildingPrefabs[_buildingIndex].GetComponent<Renderer>().bounds.size.y)
+
+                Vector3 previewPosition = hit.point + (Vector3.up * (Instance.buildingPrefabs[_buildingIndex].GetComponent<Renderer>().bounds.size.y) * 0.5f); 
 
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
                 {
@@ -60,7 +58,7 @@ public class BuildingSystem : MonoBehaviour
                         HandleBuildingPreview(_buildingIndex, previewPosition, true);
                         if (Input.GetMouseButtonDown(0))
                         {
-                            Instantiate(buildingPrefab, previewPosition, Quaternion.identity);
+                            Instantiate(_buildingPrefab, previewPosition, Quaternion.identity);
                             Destroy(gameObject.transform.GetChild(0).gameObject);
 
                             CreatePreview();
@@ -89,22 +87,22 @@ public class BuildingSystem : MonoBehaviour
 
     void CreatePreview()
     {
-        if (buildingPrefab != null)
+        if (_buildingPrefab != null)
         {
-            previewInstance = Instantiate(buildingPrefab, transform);
-            previewInstance.transform.localScale = buildingPrefab.transform.localScale;
+            _previewInstance = Instantiate(_buildingPrefab, transform);
+            _previewInstance.transform.localScale = _buildingPrefab.transform.localScale;
 
-            foreach (Collider col in previewInstance.GetComponentsInChildren<Collider>())
+            foreach (Collider col in _previewInstance.GetComponentsInChildren<Collider>())
             {
                 col.enabled = false;
             }
 
-            foreach (MonoBehaviour script in previewInstance.GetComponentsInChildren<MonoBehaviour>())
+            foreach (MonoBehaviour script in _previewInstance.GetComponentsInChildren<MonoBehaviour>())
             {
                 script.enabled = false;
             }
 
-            foreach (NavMeshObstacle obstacle in previewInstance.GetComponentsInChildren<NavMeshObstacle>())
+            foreach (NavMeshObstacle obstacle in _previewInstance.GetComponentsInChildren<NavMeshObstacle>())
             {
                 obstacle.enabled = false;
             }
@@ -113,16 +111,16 @@ public class BuildingSystem : MonoBehaviour
 
     void HandleBuildingPreview(int buildingIndex, Vector3 previewPosition, bool isBuildable)
     {
-        previewInstance.transform.position = previewPosition;
-        previewInstance.transform.GetChild(0).gameObject.SetActive(true);
+        _previewInstance.transform.position = previewPosition;
+        _previewInstance.transform.GetChild(0).gameObject.SetActive(true);
 
         if (isBuildable)
         {
-            previewInstance.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            _previewInstance.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         }
         else
         {
-            previewInstance.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            _previewInstance.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
 
@@ -148,7 +146,7 @@ public class BuildingSystem : MonoBehaviour
     bool IsAffordable(int buildingIndex)
     {
         Building building = Instance.buildingPrefabs[buildingIndex];
-        if (building.woodRequired <= ResourcesManager.Instance.currentWood && building.rocksRequired <= ResourcesManager.Instance.currentRocks)
+        if (building.buildingData.woodRequired <= ResourcesManager.Instance.currentWood && building.buildingData.rocksRequired <= ResourcesManager.Instance.currentRocks)
         {
             return true;
         }
@@ -164,7 +162,7 @@ public class BuildingSystem : MonoBehaviour
         {
             _isInBuildingMode = !_isInBuildingMode;
             _buildingIndex = buildingIndex;
-            buildingPrefab = Instance.buildingPrefabs[buildingIndex];
+            _buildingPrefab = Instance.buildingPrefabs[buildingIndex];
 
             CreatePreview();
         }

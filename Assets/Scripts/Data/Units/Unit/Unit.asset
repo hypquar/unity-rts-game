@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2796f2312ba804e4788534c9f3e5725b, type: 3}
+  m_Name: Unit
+  m_EditorClassIdentifier: 
+  unitName: Unit
+  health: 10
+  damage: 5
+  level: 1
+  requiredWood: 10
+  requiredStone: 15
+  speed: 3
+  attackRange: 1
+  preset: {fileID: 6436359252233295695, guid: 204d62735d0ae854bb05ce464f6552da, type: 3}

@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae91678a57d3868459d99d309f92168f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: ebf6e06f2ce5f214b96550142dbaee08, type: 2}
 --- !u!195 &7445370749099088791
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -245,7 +246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b2855a48ce9d8f44a5d3e7747fd3bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionManager: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 0
