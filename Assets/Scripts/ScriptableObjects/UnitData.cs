@@ -16,4 +16,9 @@ public class UnitData : ScriptableObject
     public float attackRange;
 
     public GameObject preset;
+
+    public void LoadFromJson(string json)
+    {
+        JsonUtility.FromJsonOverwrite(json, this);
+    }
 }

@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class JsonExporter : MonoBehaviour
 {
-    public UnitData[] unitDataList;
-    public BuildingData[] buildingDataList;
+    [SerializeField] private UnitData[] _unitDataList;
+
+    private DataManager _dataManager;
+
+    private string unitDirectoryPath;
     void Start()
     {
+        _dataManager = DataManager.Instance;
 
-        string unitDirectoryPath = Path.Combine(Application.dataPath, "Units");
-        Directory.CreateDirectory(unitDirectoryPath);
-
-        string buildingDirectoryPath = Path.Combine(Application.dataPath, "Buildings");
-        Directory.CreateDirectory(buildingDirectoryPath);
-
-        foreach (UnitData unitData in unitDataList)
+        unitDirectoryPath = _dataManager.unitConfigPath;
+        
+        foreach (UnitData unitData in _unitDataList)
         {
             string json = JsonUtility.ToJson(unitData);
             string filePath = Path.Combine(unitDirectoryPath, $"{unitData.name}.json");
@@ -23,17 +23,5 @@ public class JsonExporter : MonoBehaviour
 
             Debug.Log(filePath);
         }
-
-        foreach (BuildingData buildingData in buildingDataList)
-        {
-            string json = JsonUtility.ToJson(buildingDataList);
-            string filePath = Path.Combine(buildingDirectoryPath, $"{buildingData.name}.json");
-
-            File.WriteAllText(filePath, json);
-
-            Debug.Log(filePath);
-        }
     }
-
-    
 }

@@ -34,7 +34,7 @@ public class SoundManager : MonoBehaviour
 
     void Update()
     {
-        
+     
     }
 
 
@@ -71,6 +71,11 @@ public class SoundManager : MonoBehaviour
         {
             audioSource.PlayOneShot(audioClip);
         }
+    }
+
+    public void SetVolume(float value)
+    {
+        _musicSource.volume = value;
     }
 
 }
